@@ -79,4 +79,92 @@
 #include <vector>
 #include <string>
 using namespace std;
+/ Function to display the menu choices
+void showMenu() {
+    cout << "\n============================\n";
+    cout << "       TO-DO LIST MENU      \n";
+    cout << "============================\n";
+    cout << "1. Add task\n";
+    cout << "2. View tasks\n";
+    cout << "3. Delete task\n";
+    cout << "4. Quit\n";
+    cout << "Enter your choice (1-4): ";
+}
 
+// Function 1: Add a new task to the vector
+void addTask(vector<string>& tasks) {
+    cout << "Enter task: ";
+    string task;
+    cin.ignore(); // Clear any leftover newline character from cin
+    getline(cin, task);
+
+    tasks.push_back(task);
+    cout << "Task added: \"" << task << "\"\n";
+}
+
+// Function 2: View all current tasks
+void viewTasks(const vector<string>& tasks) {
+    if (tasks.empty()) {
+        cout << "Your list is currently empty!\n";
+        return;
+    }
+
+    cout << "Your Tasks:\n";
+    for (size_t i = 0; i < tasks.size(); i++) {
+        cout << (i + 1) << ". " << tasks[i] << endl;
+    }
+}
+
+// Function 3: Delete a task by its display number (1-based)
+void deleteTask(vector<string>& tasks) {
+    if (tasks.empty()) {
+        cout << "Your list is empty! No tasks to delete.\n";
+        return;
+    }
+
+    // Show existing tasks first so user knows the numbers
+    viewTasks(tasks);
+
+    cout << "Enter task number to delete: ";
+    int taskNum;
+    cin >> taskNum;
+
+    // Validate if task number is within valid range
+    if (taskNum < 1 || taskNum > static_cast<int>(tasks.size())) {
+        cout << "Error: Invalid task number.\n";
+    } else {
+        string removedTask = tasks[taskNum - 1]; // Convert 1-based index to 0-based
+        tasks.erase(tasks.begin() + (taskNum - 1));
+        cout << "Task \"" << removedTask << "\" has been removed.\n";
+    }
+}
+
+int main() {
+    vector<string> tasks;
+    int choice = 0;
+
+    while (choice != 4) {
+        showMenu();
+        cin >> choice;
+
+        switch (choice) {
+            case 1:
+                addTask(tasks);
+                break;
+            case 2:
+                viewTasks(tasks);
+                break;
+            case 3:
+                deleteTask(tasks);
+                break;
+            case 4:
+                cout << "Goodbye!\n";
+                break;
+            default:
+                cout << "Invalid choice! Please enter a number between 1 and 4.\n";
+                break;
+        }
+    }
+
+    return 0;
+}
