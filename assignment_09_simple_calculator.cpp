@@ -73,3 +73,109 @@
 #include <cmath>
 using namespace std;
 
+// Function for addition
+double add(double a, double b) {
+    return a + b;
+}
+
+// Function for subtraction
+double subtract(double a, double b) {
+    return a - b;
+}
+
+// Function for multiplication
+double multiply(double a, double b) {
+    return a * b;
+}
+
+// Function for division
+double divide(double a, double b) {
+    return a / b;
+}
+
+// Function for modulus (requires integer conversion)
+int modulus(int a, int b) {
+    return a % b;
+}
+
+// Function for exponentiation
+double power(double base, double exp) {
+    return pow(base, exp);
+}
+
+// Helper function to display the main menu
+void showMenu() {
+    cout << "\n============================\n";
+    cout << "      SIMPLE CALCULATOR     \n";
+    cout << "============================\n";
+    cout << "1. Addition\n";
+    cout << "2. Subtraction\n";
+    cout << "3. Multiplication\n";
+    cout << "4. Division\n";
+    cout << "5. Modulus\n";
+    cout << "6. Exponentiation\n";
+    cout << "7. Quit\n";
+    cout << "Select an operation (1-7): ";
+}
+
+int main() {
+    int choice = 0;
+
+    while (choice != 7) {
+        showMenu();
+        cin >> choice;
+
+        if (choice == 7) {
+            cout << "Goodbye!\n";
+            break;
+        }
+
+        // Catch invalid menu choices right away
+        if (choice < 1 || choice > 7) {
+            cout << "Invalid choice! Please select a number between 1 and 7.\n";
+            continue;
+        }
+
+        double num1, num2;
+        cout << "Enter first number : ";
+        cin >> num1;
+        cout << "Enter second number: ";
+        cin >> num2;
+
+        cout << fixed << setprecision(2);
+
+        switch (choice) {
+            case 1:
+                cout << "Result: " << num1 << " + " << num2 << " = " << add(num1, num2) << endl;
+                break;
+            case 2:
+                cout << "Result: " << num1 << " - " << num2 << " = " << subtract(num1, num2) << endl;
+                break;
+            case 3:
+                cout << "Result: " << num1 << " * " << num2 << " = " << multiply(num1, num2) << endl;
+                break;
+            case 4:
+                // Check for division by zero
+                if (num2 == 0) {
+                    cout << "Error: Cannot divide by zero.\n";
+                } else {
+                    cout << "Result: " << num1 << " / " << num2 << " = " << divide(num1, num2) << endl;
+                }
+                break;
+            case 5:
+                // Check for modulus by zero
+                if ((int)num2 == 0) {
+                    cout << "Error: Cannot perform modulus by zero.\n";
+                } else {
+                    cout << "Result: " << (int)num1 << " % " << (int)num2 << " = " 
+                         << modulus((int)num1, (int)num2) << endl;
+                }
+                break;
+            case 6:
+                cout << "Result: " << num1 << " ^ " << num2 << " = " << power(num1, num2) << endl;
+                break;
+        }
+    }
+
+    return 0;
+}
