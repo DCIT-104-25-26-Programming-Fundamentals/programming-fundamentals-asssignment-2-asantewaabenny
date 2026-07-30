@@ -56,4 +56,50 @@
 
 #include <iostream>
 using namespace std;
+// PART A: Function to print a single multiplication table from 1 to 12
+void printTable(int number) {
+    cout << "\nMultiplication Table for " << number << ":\n";
+    for (int i = 1; i <= 12; i++) {
+        cout << number << "  x  " << i << "  =  " << (number * i) << endl;
+    }
+}
 
+// PART B: Function to print tables for all numbers from 1 to N
+void printTablesUpTo(int n) {
+    for (int i = 1; i <= n; i++) {
+        printTable(i); // Reuses Part A's function!
+        cout << "---------------------------" << endl;
+    }
+}
+
+int main() {
+    int num, maxN;
+
+    // --- PART A ---
+    cout << "=== PART A ===" << endl;
+    cout << "Enter a number for single table: ";
+    cin >> num;
+
+    // Validate input
+    if (num <= 0) {
+        cout << "Error: Number must be a positive integer." << endl;
+        return 1;
+    }
+
+    printTable(num);
+
+    // --- PART B ---
+    cout << "\n=== PART B ===" << endl;
+    cout << "Enter N to print tables from 1 to N: ";
+    cin >> maxN;
+
+    // Validate input
+    if (maxN <= 0) {
+        cout << "Error: N must be a positive integer." << endl;
+        return 1;
+    }
+
+    printTablesUpTo(maxN);
+
+    return 0;
+}
