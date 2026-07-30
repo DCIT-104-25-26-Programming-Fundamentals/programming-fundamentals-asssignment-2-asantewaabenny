@@ -82,4 +82,147 @@
 #include <string>
 #include <iomanip>
 using namespace std;
+// Struct to store student information
+struct Student {
+    string name;
+    int id;
+    vector<double> scores;
+};
 
+// Helper function to calculate average score for a student
+double getAverage(const Student& s) {
+    if (s.scores.empty()) {
+        return 0.0;
+    }
+    double sum = 0.0;
+    for (size_t i = 0; i < s.scores.size(); i++) {
+        sum += s.scores[i];
+    }
+    return sum / s.scores.size();
+}
+
+// Function to display the menu choices
+void showMenu() {
+    cout << "\n================================\n";
+    cout << "   STUDENT RECORD SYSTEM MENU   \n";
+    cout << "================================\n";
+    cout << "1. Add student\n";
+    cout << "2. Display all students\n";
+    cout << "3. Calculate average score\n";
+    cout << "4. Quit\n";
+    cout << "Enter your choice (1-4): ";
+}
+
+// Function 1: Add a new student record
+void addStudent(vector<Student>& students) {
+    Student newStudent;
+
+    cout << "Student name: ";
+    cin.ignore(); // Clear newline left in buffer
+    getline(cin, newStudent.name);
+
+    cout << "Student ID: ";
+    cin >> newStudent.id;
+
+    int scoreCount;
+    cout << "How many scores? ";
+    cin >> scoreCount;
+
+    for (int i = 0; i < scoreCount; i++) {
+        double score;
+        cout << "Enter score " << (i + 1) << ": ";
+        cin >> score;
+        newStudent.scores.push_back(score);
+    }
+
+    students.push_back(newStudent);
+    cout << "Student \"" << newStudent.name << "\" added successfully.\n";
+}
+
+// Function 2: Display all students with scores and averages
+void displayAllStudents(const vector<Student>& students) {
+    if (students.empty()) {
+        cout << "No student records found.\n";
+        return;
+    }
+
+    cout << "\n---------------------------------------------------------------\n";
+    cout << left << setw(20) << "Name" 
+         << setw(12) << "ID" 
+         << setw(20) << "Scores" 
+         << "Average\n";
+    cout << "---------------------------------------------------------------\n";
+
+    for (size_t i = 0; i < students.size(); i++) {
+        cout << left << setw(20) << students[i].name 
+             << setw(12) << students[i].id;
+
+        // Print list of scores
+        string scoreList = "";
+        for (size_t j = 0; j < students[i].scores.size(); j++) {
+            scoreList += to_string((int)students[i].scores[j]);
+            if (j < students[i].scores.size() - 1) scoreList += ", ";
+        }
+        cout << setw(20) << scoreList;
+
+        // Print average rounded to 2 decimal places
+        cout << fixed << setprecision(2) << getAverage(students[i]) << endl;
+    }
+}
+
+// Function 3: Find average score for a specific student ID
+void calculateStudentAverage(const vector<Student>& students) {
+    if (students.empty()) {
+        cout << "No student records found.\n";
+        return;
+    }
+
+    int targetId;
+    cout << "Enter student ID: ";
+    cin >> targetId;
+
+    bool found = false;
+    for (size_t i = 0; i < students.size(); i++) {
+        if (students[i].id == targetId) {
+            found = true;
+            double avg = getAverage(students[i]);
+            cout << students[i].name << "'s average score: " 
+                 << fixed << setprecision(2) << avg << endl;
+            break;
+        }
+    }
+
+    if (!found) {
+        cout << "Error: Student with ID " << targetId << " not found.\n";
+    }
+}
+
+int main() {
+    vector<Student> students;
+    int choice = 0;
+
+    while (choice != 4) {
+        showMenu();
+        cin >> choice;
+
+        switch (choice) {
+            case 1:
+                addStudent(students);
+                break;
+            case 2:
+                displayAllStudents(students);
+                break;
+            case 3:
+                calculateStudentAverage(students);
+                break;
+            case 4:
+                cout << "Goodbye!\n";
+                break;
+            default:
+                cout << "Invalid choice! Please enter a number between 1 and 4.\n";
+                break;
+        }
+    }
+
+    return 0;
+}
